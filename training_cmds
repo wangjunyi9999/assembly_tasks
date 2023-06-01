@@ -1,0 +1,24 @@
+pick:
+python train.py task=FactoryTaskPegHolePick test=True checkpoint=/home/jy/junyi/IsaacGym_Preview_4_Package/isaacgym/IsaacGymEnvs/isaacgymenvs/runs/FactoryTaskPegHolePick/nn/FactoryTaskPegHolePick.pth num_envs=1
+place:
+python train.py task=FactoryTaskPegHolePlace test=True checkpoint=/home/jy/junyi/IsaacGym_Preview_4_Package/isaacgym/IsaacGymEnvs/isaacgymenvs/runs/FactoryTaskPegHolePlace/nn/FactoryTaskPegHolePlace.pth num_envs=1
+insert:
+python train.py task=FactoryTaskPegHoleInsert test=True checkpoint=/home/jy/junyi/IsaacGym_Preview_4_Package/isaacgym/IsaacGymEnvs/isaacgymenvs/runs/FactoryTaskPegHoleInsert/nn/FactoryTaskPegHoleInsert.pth num_envs=1
+
+python train.py task=FactoryTaskPegHoleInsert test=True checkpoint=/home/jy/junyi/SDU_DTU_master_thesis/Peg-in-Hole/isaac/isaacgymenvs/runs/FactoryTaskPegHoleInsert_admittance/nn/FactoryTaskPegHoleInsert.pth num_envs=1
+
+the sequences of controlling the env step:
+
+
+File "train.py", line 127, in launch_rlg_hydra
+    runner.run({
+  File "/home/jy/anaconda3/envs/robotarm/lib/python3.8/site-packages/rl_games/torch_runner.py", line 125, in run
+    self.run_play(args)
+  File "/home/jy/anaconda3/envs/robotarm/lib/python3.8/site-packages/rl_games/torch_runner.py", line 110, in run_play
+    player.run()
+  File "/home/jy/anaconda3/envs/robotarm/lib/python3.8/site-packages/rl_games/common/player.py", line 210, in run
+    obses, r, done, info = self.env_step(self.env, action)
+  File "/home/jy/anaconda3/envs/robotarm/lib/python3.8/site-packages/rl_games/common/player.py", line 72, in env_step
+    obs, rewards, dones, infos = env.step(actions)
+  File "/home/jy/junyi/SDU_DTU_master_thesis/Peg-in-Hole/peg_in_hole/tasks/base/vec_task.py", line 329, in step
+    self.pre_physics_step(action_tensor)
