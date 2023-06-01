@@ -1,0 +1,63 @@
+<! this file is referred to the origin github writer UR5 file, the main purpose aims at the initial pos and orientation>
+<mujoco>
+    <body name='stand' pos='0 0 1.65'>
+        <geom size="0.2 0.2 0.1" pos ="0 0 0" type="box" material="stand_mat"/>
+        <inertial pos="0 0 0" mass="1000" diaginertia="0 0 0" />
+        
+        <body name="UR5:base_link" pos="0 0 0.1">
+            <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="4" diaginertia="0.0072 0.00443333 0.00443333" />
+            <geom type="mesh"  mesh="base" material="ur5_mat"/>
+            <body name="UR5:shoulder_link" pos="0 0 0.089159"><!quat='1 0 0 0'>
+                <inertial pos="0 0 0" mass="3.7" diaginertia="0.0102675 0.0102675 0.00666" /> <!quat='.707 .707 0 0'>
+                <joint name="UR5:shoulder_pan_joint" class="UR5" pos="0 0 0" axis="0 0 1" limited="true" range="-3.14159 3.14159" />
+                <geom type="mesh"  mesh="shoulder" material="ur5_mat"/>
+                <body name="UR5:upper_arm_link" pos="0 0.13585 0" quat="0.707107 0 0.707107 0"> <!quat="0.707107 0 0.707107 0" quat="1 0 0 0">
+                    <inertial pos="0 0 0.28" mass="8.393" diaginertia="0.226891 0.226891 0.0151074" />
+                    <joint name="UR5:shoulder_lift_joint" class="UR5" pos="0 0 0" axis="0 1 0" limited="true" range="0 3.14159" /> <!--Range= -3.14159 3.14159-->
+                    <geom type="mesh"  mesh="upperarm" material="ur5_mat"/>
+                    <body name="UR5:forearm_link" pos="0 -0.1197 0.425"> <!quat="1 0 0 0">
+                        <inertial pos="0 0 0.25" mass="2.275" diaginertia="0.0494433 0.0494433 0.004095" />
+                        <joint name="UR5:elbow_joint" class="UR5" pos="0 0 0" axis="0 1 0" limited="true" range="-3.14159 3.14159" />
+                        <geom type="mesh"  mesh="forearm" material="ur5_mat"/>
+                        <body name="UR5:wrist_1_link" pos="0 0 0.39225" quat="0.707107 0 0.707107 0"><!quat="0.707107 0 -0.707107 0"  quat="1 0 0 0">
+                            <inertial pos="0 0 0"  mass="1.219" diaginertia="0.21942 0.111173 0.111173" /> <!quat="0.5 0.5 -0.5 0.5">
+                            <joint name="UR5:wrist_1_joint" class="UR5e" pos="0 0 0" axis="0 1 0" limited="true" range="-3.14159 3.14159" />
+                            <geom type="mesh"  mesh="wrist1" material="ur5_mat"/>
+                            <body name="UR5:wrist_2_link" pos="0 0.093 0">  <!quat="0.707107 0 0 -0.707107" euler='0 0 -1.57'>
+                                <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="1.219" diaginertia="0.21942 0.111173 0.111173" /> <!quat="0.5 0.5 -0.5 0.5"  quat="1 0 0 0">
+                                <joint name="UR5:wrist_2_joint" class="UR5e" pos="0 0 0" axis="0 0 1" limited="true" range="-3.14159 3.14159" />
+                                <geom type="mesh"  mesh="wrist2" material="ur5_mat"/>
+                                <body name="UR5:wrist_3_link" pos="0 0 0.09465" > <!quat="0.707107 0 0 -0.707107">
+                                    <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="0.1879" diaginertia="0.033822 0.0171365 0.0171365" />
+                                    <joint name="UR5:wrist_3_joint" class="UR5e" pos="0 0 0" axis="0 1 0" limited="true" range="-3.14159 3.14159" />
+                                    <geom type="mesh"  mesh="wrist3" material="ur5_mat"/>
+                                    <body name="UR5:ee_link" pos="0 0.0823 0" quat="0.707107 0 0 0.707107"><!quat="0.707107 0 0 0.707107">
+                                        <inertial pos="-0.01 0 0" mass="0.001" diaginertia="1.66667e-08 1.66667e-08 1.66667e-08" />
+                                        <geom size="0.005 0.005 0.005" pos="-0.01 0 0" type="box" />
+
+                                        <site name="UR5:finger_site" pos='0.16 0 0' rgba="1 0 0 .5" size="0.02 0.02 0.02"/> <!pos='0 0 0.15'>
+                                        
+                                        <body name= "UR5:gripper_link" pos='0.15 0 0'>
+                                            <inertial diaginertia="0.0024 0.0019 0.0013" mass="1.5175" pos="-0.09 -0.0001 -0.0017" quat="0 0.7071 0 0.7071"/>
+                                            <geom mesh="UR5:gripper_link" type="mesh" material="UR5:gripper_mat"/>
+                                            <body name="UR5:r_gripper_finger_link" pos="0 0.0159 0" >
+												<inertial diaginertia="0.1 0.1 0.1" mass="4" pos="-0.01 0 0"/>
+												<joint axis="0 1 0" name="UR5:r_gripper_finger_joint" class="UR5:Gripper" range="0 0.2"/>
+												<geom pos="0 -0.008 0" size="0.0385 0.007 0.0135" type="box" name="UR5:r_gripper_finger_link" material="UR5:gripper_finger_mat" condim="4" friction="1 0.8 0.8"/> <!friction="1 0.05 0.01">
+											</body>
+											<body name="UR5:l_gripper_finger_link" pos="0 -0.0159 0" >
+												<inertial diaginertia="0.1 0.1 0.1" mass="4" pos="-0.01 0 0"/>
+												<joint axis="0 -1 0" name="UR5:l_gripper_finger_joint" class="UR5:Gripper" range="0 0.2"/>
+												<geom pos="0 0.008 0" size="0.0385 0.007 0.0135" type="box" name="UR5:l_gripper_finger_link" material="UR5:gripper_finger_mat" condim="4" friction="1 0.8 0.8"/>
+											</body>
+                                        </body>
+                                    </body>                                  
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </body>
+</mujoco>

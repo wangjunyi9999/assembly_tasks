@@ -1,0 +1,13 @@
+<!--ACTUATORS-->
+<actuator>
+    <motor name='UR5:shoulder_pan_T' ctrllimited="true" ctrlrange="-2 2" joint='UR5:shoulder_pan_joint' gear="101"/> <!--range -150 150--> <!ctrlrange="-2 2">
+    <motor name='UR5:shoulder_lift_T' ctrllimited="true" ctrlrange="-2 2" joint='UR5:shoulder_lift_joint' gear="101"/> <!ctrlrange="-2 2">
+    <motor name='UR5:forearm_T' ctrllimited="true" ctrlrange="-2 2" joint='UR5:elbow_joint' gear="101" /> <!ctrlrange="-2 2">
+    <motor name='UR5:wrist_1_T' ctrllimited="true" ctrlrange="-1 1" joint='UR5:wrist_1_joint' gear="101"/>  <!--range -28 28-->
+    <motor name='UR5:wrist_2_T' ctrllimited="true" ctrlrange="-1 1" joint='UR5:wrist_2_joint' gear="101"/>
+    <motor name='UR5:wrist_3_T' ctrllimited="true" ctrlrange="-1 1" joint='UR5:wrist_3_joint' gear="101"/>
+    <motor name='UR5:gripper_motor_l' ctrllimited="true" ctrlrange="-1 1" joint='UR5:base_to_lik' gear="101"/>
+    <motor name='UR5:gripper_motor_r' ctrllimited="true" ctrlrange="-1 1" joint='UR5:base_to_rik' gear="101"/>
+    <!motor ctrllimited="true" ctrlrange="0 0.2" joint="UR5:l_gripper_finger_joint" name="UR5:l_gripper_finger_joint" user="1"/>
+	<!position ctrllimited="true" ctrlrange="0 0.2" joint="UR5:r_gripper_finger_joint" kp="30000" name="UR5:r_gripper_finger_joint" user="1"/>
+</actuator>

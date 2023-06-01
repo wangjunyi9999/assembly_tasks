@@ -1,0 +1,25 @@
+# See schema in factory_schema_config_env.py for descriptions of common parameters.
+
+defaults:
+    - FactoryBase
+    - _self_
+    - /factory_schema_config_env
+
+sim:
+    disable_franka_collisions: False
+
+env:
+    env_name: 'FactoryEnvPegHole'
+
+    desired_subassemblies: ['round_peg_hole_16mm_tight', 'round_peg_hole_16mm_loose']
+    peg_lateral_offset: 0.1  # Y-axis offset of peg before initial reset to prevent initial interpenetration with hole
+# Subassembly options:
+    # {round_peg_hole_4mm_tight, round_peg_hole_4mm_loose,
+    # round_peg_hole_8mm_tight, round_peg_hole_8mm_loose,
+    # round_peg_hole_12mm_tight, round_peg_hole_12mm_loose,
+    # round_peg_hole_16mm_tight, round_peg_hole_16mm_loose,
+    # rectangular_peg_hole_4mm_tight, rectangular_peg_hole_4mm_loose,
+    # rectangular_peg_hole_8mm_tight, rectangular_peg_hole_8mm_loose,
+    # rectangular_peg_hole_12mm_tight, rectangular_peg_hole_12mm_loose,
+    # rectangular_peg_hole_16mm_tight, rectangular_peg_hole_16mm_loose,
+    # }

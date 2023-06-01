@@ -1,0 +1,141 @@
+<mujoco model="ur5gripper">
+    <compiler angle="radian" inertiafromgeom="auto" meshdir="visual/" texturedir="texture/"/>
+    <option timestep="0.0001" iterations="100" integrator='RK4' collision='all' gravity='0 0 -9.81' noslip_iterations='5'/>
+    
+    <default>
+        <site rgba="0.8 0.6 0.7 0.3" type="ellipsoid" group="3"/>
+        <geom contype='1' conaffinity='1' condim='4'  margin="1e-3" solref=".01 1" solimp=".99 .99 .01" />
+        <joint armature="0.01" damping=".1"/>
+        <default class="UR5">
+            <joint damping='65'/>
+        </default>
+
+         <default class="UR5e">
+            <joint damping='45'/>
+        </default>
+
+        <default class="GRIPPER">
+            <joint damping='5' solimplimit="0.99 0.999 0.01" solreflimit="0.01 1" armature="100"/>
+        </default>
+    </default>
+
+    <visual>
+        <map fogstart="3" fogend="5" znear="0.05"/>
+        <quality shadowsize="2048"/>
+        <scale framelength="0.1" framewidth="0.005" contactwidth="0.1" contactheight="0.005" forcewidth="0.01"/>
+    </visual>
+
+    <asset>
+        <!--Meshes-->
+        <mesh name="base"           file="base.stl"     />
+        <mesh name="shoulder"       file="shoulder.stl" />
+        <mesh name="upperarm"       file="upperarm.stl" />
+        <mesh name="forearm"        file="forearm.stl"  />
+        <mesh name="wrist1"         file="wrist1.stl"   />
+        <mesh name="wrist2"         file="wrist2.stl"   />
+        <mesh name="wrist3"         file="wrist3.stl"   />
+        <mesh name="gripperpalm"    file="palm.STL"     />
+        <mesh name="link_0"         file="link_0.STL"   />
+        <mesh name="link_1"         file="link_1.STL"   />
+        <mesh name="link_2"         file="link_2.STL"   />
+        <mesh name="link_3"         file="link_3.STL"   />
+
+        <mesh name="robotiq_85_base_link_coarse" file="robotiq_85_base_link_coarse.STL" />
+        <mesh name="inner_knuckle_coarse" file="inner_knuckle_coarse.STL" />
+        <mesh name="inner_finger_coarse" file="inner_finger_coarse.STL" />
+        <mesh name="outer_knuckle_coarse" file="outer_knuckle_coarse.STL" />
+        <mesh name="outer_finger_coarse" file="outer_finger_coarse.STL" />
+
+        <!--Textures rgb1=".2 .3 .4" rgb2=".1 .2 .3"-->
+        <texture name="ur5_tex"     type="2d"       builtin="flat" height="32" width="32" rgb1="0.45 0.45 0.45" />
+        <texture name="gripper_tex" type="2d"       builtin="flat" height="32" width="32" rgb1="0.45 0.45 0.45" rgb2="0 0 0"/>
+        <texture name="bench_tex"   type="2d"       builtin="flat" height="32" width="32" rgb1="0.7 0.7 0.7" />
+        <texture name="sky_tex"     type="skybox"   builtin="gradient" width="100" height="100" rgb1="0.3 0.5 0.7" rgb2="0 0 0" />
+        <texture name="texgeom"     type="cube"     builtin="flat" mark="cross" width="127" height="1278" rgb1="0.8 0.6 0.4" rgb2="0.8 0.6 0.4" markrgb="1 1 1" random="0.01" />
+        <texture name="floor_tex"   type="2d"        builtin="checker" rgb1=".2 .3 .4" rgb2=".1 0.15 0.2" mark="cross" markrgb=".8 .8 .8" width="100" height="100" />
+        <texture name="wood"        type="cube"     file="wood2.png"/>
+        <texture name="metal"        type="cube"     file="metal2.png"/>
+        <!--Materials-->
+        <material name="ur5_mat"        texture="ur5_tex"   shininess="0.9" specular="0.75" reflectance="0.3"/>
+        <material name="gripper_mat"    texture="gripper_tex"   shininess="0.9" specular="0.75" reflectance="0.4"/>
+        <material name='floor_mat'      texture="floor_tex"  shininess="0.8" texrepeat="10 10" specular="0.7"  reflectance="0.5" />
+        <material name='geom'           texture="texgeom"   texuniform="true" />
+        <material name="bench_mat"      texture="metal"   shininess="0.1" specular="0.5" reflectance="0.2"/>
+        <material name="stand_mat"      texture="wood"   rgba=".8 .8 .8 1"/>
+        <!material name="tablecube"      texture="wood" rgba=".8 .8 .8 1"/>
+    </asset>
+    <!--Contacts-->
+    <contact>
+        <exclude body1="stand" body2="UR5:base_link"/>
+        <exclude body1="UR5:base_link" body2="UR5:shoulder_link"/>
+        <exclude body1="UR5:shoulder_link" body2="UR5:upper_arm_link"/>
+        <exclude body1="UR5:upper_arm_link" body2="UR5:forearm_link"/>
+        <exclude body1="UR5:forearm_link" body2="UR5:wrist_1_link"/>
+        <exclude body1="UR5:wrist_1_link" body2="UR5:wrist_2_link"/>
+        <exclude body1="UR5:wrist_2_link" body2="UR5:wrist_3_link"/>
+        <exclude body1="UR5:ee_link" body2="UR5:wrist_3_link"/>
+        <exclude body1="UR5:right_inner_finger" body2="UR5:left_inner_finger"/>
+        <!exclude body1="table" body2="object"/>
+    </contact>
+
+    <worldbody>
+        <light directional="true" diffuse=".4 .4 .4" specular="0.1 0.1 0.1" pos="0 0 5.0" dir="0 0 -1" castshadow="false"/>
+        <light directional="true" diffuse=".6 .6 .6" specular="0.2 0.2 0.2" pos="0 0 4" dir="0 0 -1"/>
+        <geom name='floor' material="floor_mat" pos='0 0 0' size='5 5 0.1'  type='plane' />
+        <include file='table.xml'/>
+        <!-- THIS IS DIY UR5 DEMO <include file='ur5.xml'/> -->
+        <include file='ur5_origin.xml'/>
+
+        <body name='object' pos='0.49 0.1 1.675' quat='1 0 0 0'> <!0.5 0.1 1.675   0.8 0.33 1.67   >
+            <joint type="free" damping="0.007" name="free_joint" />
+            <geom size=".2 .02 .02" pos="0 0 0" type="box" rgba='0.3 0.9 0.2 1' mass='.2' />
+            <site name="object" pos="0 0 0" size="0.02 0.02 0.02" rgba="1 0 0 1" type="sphere"/>
+        </body>
+
+        <!-- <body name='hole' pos='-0.5 0.3 1.67'>
+            <geom size=".02 .02 .02" pos="0 0 0" type="box" rgba='0.9 0.9 0.2 1'/>
+        </body> -->
+
+        <body name="hole" pos="0.5 -0.5 1.67">
+
+            <body name="w1" pos="0.0179 0. 0.025">
+                <geom name="w1" rgba="0.3 0.5 0.6 1" type="box" group="1" size="0.0071 0.025 0.02" contype="1" conaffinity="1" />
+            </body>
+            <body name="w2" pos="-0.0179 0. 0.025">
+                <geom name="w2" rgba="0.3 0.5 0.6 1" type="box" group="1" size="0.0071 0.025 0.02" contype="1" conaffinity="1" />
+            </body>
+            <body name="w3" pos="0. -0.0179 0.025">
+                <geom name="w3" rgba="0.3 0.5 0.6 1" type="box" group="1" size="0.0108 0.0071 0.02" contype="1" conaffinity="1" />
+            </body>
+            <body name="w4" pos="0. 0.0179 0.025">
+                <geom name="w4" rgba="0.3 0.5 0.6 1" type="box" group="1" size="0.0108 0.0071 0.02" contype="1" conaffinity="1" />
+
+            </body>
+        </body>
+        
+                         
+    </worldbody>
+
+    <!-- <equality>
+        <joint name="fingers" joint1="UR5:base_to_rik" joint2="UR5:base_to_lik" polycoef="0 1 0 0 0"/>
+    </equality> -->
+
+    <actuator>
+        <!include file='actuators/position.xml'/>
+       
+        <motor name='UR5:shoulder_pan_T' ctrllimited="true" ctrlrange="-2 2" joint='UR5:shoulder_pan_joint' gear="101"/> <!--range -150 150--> <!ctrlrange="-2 2">
+        <motor name='UR5:shoulder_lift_T' ctrllimited="true" ctrlrange="-2 2" joint='UR5:shoulder_lift_joint' gear="101"/> <!ctrlrange="-2 2">
+        <motor name='UR5:forearm_T' ctrllimited="true" ctrlrange="-2 2" joint='UR5:elbow_joint' gear="101" /> <!ctrlrange="-2 2">
+        <motor name='UR5:wrist_1_T' ctrllimited="true" ctrlrange="-1 1" joint='UR5:wrist_1_joint' gear="101"/>  <!--range -28 28-->
+        <motor name='UR5:wrist_2_T' ctrllimited="true" ctrlrange="-1 1" joint='UR5:wrist_2_joint' gear="101"/>
+        <motor name='UR5:wrist_3_T' ctrllimited="true" ctrlrange="-1 1" joint='UR5:wrist_3_joint' gear="101"/>
+        <! grippers>
+        <motor name='UR5:gripper_motor_l' ctrllimited="true" ctrlrange="-1 1" joint='UR5:base_to_lik' gear="101"/>
+        <motor name='UR5:gripper_motor_r' ctrllimited="true" ctrlrange="-1 1" joint='UR5:base_to_rik' gear="101"/>
+
+        <!motor ctrllimited="true" ctrlrange="0 0.2" joint="UR5:l_gripper_finger_joint" name="UR5:l_gripper_finger_joint" user="1"/>
+        <!position ctrllimited="true" ctrlrange="0 0.2" joint="UR5:r_gripper_finger_joint" kp="30000" name="UR5:r_gripper_finger_joint" user="1"/>
+        <!position name='UR5:gripper_motor_l' ctrllimited="false" ctrlrange="-100 100" joint='UR5:base_to_lik' kp="100"/>
+        <!position name='UR5:gripper_motor_r' ctrllimited="false" ctrlrange="-100 100" joint='UR5:base_to_rik' kp="100"/>
+    </actuator>
+</mujoco>

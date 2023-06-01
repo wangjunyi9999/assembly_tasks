@@ -1,0 +1,378 @@
+task:
+  mode:
+    export_scene: false
+    export_states: false
+  sim:
+    dt: 0.016667
+    substeps: 2
+    up_axis: z
+    use_gpu_pipeline: ${eq:${...pipeline},"gpu"}
+    gravity:
+    - 0.0
+    - 0.0
+    - -9.81
+    add_damping: true
+    physx:
+      solver_type: ${....solver_type}
+      num_threads: ${....num_threads}
+      num_subscenes: ${....num_subscenes}
+      use_gpu: ${contains:"cuda",${....sim_device}}
+      num_position_iterations: 16
+      num_velocity_iterations: 0
+      contact_offset: 0.005
+      rest_offset: 0.0
+      bounce_threshold_velocity: 0.2
+      max_depenetration_velocity: 5.0
+      friction_offset_threshold: 0.01
+      friction_correlation_distance: 0.00625
+      max_gpu_contact_pairs: 1048576
+      default_buffer_size_multiplier: 8.0
+      contact_collection: 1
+    disable_gravity: false
+  env:
+    env_spacing: 0.5
+    franka_depth: 0.5
+    table_height: 0.4
+    franka_friction: 1.0
+    table_friction: 0.3
+    numEnvs: ${resolve_default:128,${...num_envs}}
+    numObservations: 20
+    numActions: 12
+    close_and_lift: true
+    num_gripper_move_sim_steps: 20
+    num_gripper_close_sim_steps: 25
+    num_gripper_lift_sim_steps: 25
+  name: FactoryTaskPegHolePick
+  physics_engine: ${..physics_engine}
+  randomize:
+    franka_arm_initial_dof_pos:
+    - 0.3413
+    - -0.8011
+    - -0.067
+    - -1.8299
+    - 0.0266
+    - 1.0185
+    - 1.0927
+    fingertip_midpoint_pos_initial:
+    - 0.0
+    - -0.2
+    - 0.2
+    fingertip_midpoint_pos_noise:
+    - 0.2
+    - 0.2
+    - 0.1
+    fingertip_midpoint_rot_initial:
+    - 3.1416
+    - 0
+    - 3.1416
+    fingertip_midpoint_rot_noise:
+    - 0.3
+    - 0.3
+    - 1
+    peg_pos_xy_initial:
+    - 0.0
+    - -0.3
+    peg_pos_xy_initial_noise:
+    - 0.1
+    - 0.1
+    hole_pos_xy_initial:
+    - 0.0
+    - 0.0
+    hole_pos_xy_noise:
+    - 0.1
+    - 0.1
+  rl:
+    pos_action_scale:
+    - 0.1
+    - 0.1
+    - 0.1
+    rot_action_scale:
+    - 0.1
+    - 0.1
+    - 0.1
+    force_action_scale:
+    - 1.0
+    - 1.0
+    - 1.0
+    torque_action_scale:
+    - 1.0
+    - 1.0
+    - 1.0
+    clamp_rot: true
+    clamp_rot_thresh: 1.0e-06
+    num_keypoints: 4
+    keypoint_scale: 0.5
+    keypoint_reward_scale: 1.0
+    action_penalty_scale: 0.0
+    max_episode_length: 100
+    peg_finger_com_offset: 0.014
+    success_bonus: 0.0
+  ctrl:
+    ctrl_type: joint_space_id
+    all:
+      jacobian_type: geometric
+      gripper_prop_gains:
+      - 50
+      - 50
+      gripper_deriv_gains:
+      - 2
+      - 2
+    gym_default:
+      ik_method: dls
+      joint_prop_gains:
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      joint_deriv_gains:
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      gripper_prop_gains:
+      - 500
+      - 500
+      gripper_deriv_gains:
+      - 20
+      - 20
+    joint_space_ik:
+      ik_method: dls
+      joint_prop_gains:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      joint_deriv_gains:
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+    joint_space_id:
+      ik_method: dls
+      joint_prop_gains:
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      joint_deriv_gains:
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+    task_space_impedance:
+      motion_ctrl_axes:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      task_prop_gains:
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      task_deriv_gains:
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+    operational_space_motion:
+      motion_ctrl_axes:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      task_prop_gains:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      task_deriv_gains:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+    open_loop_force:
+      force_ctrl_axes:
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+    closed_loop_force:
+      force_ctrl_axes:
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      wrench_prop_gains:
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+    hybrid_force_motion:
+      motion_ctrl_axes:
+      - 1
+      - 1
+      - 0
+      - 1
+      - 1
+      - 1
+      task_prop_gains:
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      task_deriv_gains:
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      force_ctrl_axes:
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      wrench_prop_gains:
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+train:
+  params:
+    seed: ${...seed}
+    algo:
+      name: a2c_continuous
+    model:
+      name: continuous_a2c_logstd
+    network:
+      name: actor_critic
+      separate: false
+      space:
+        continuous:
+          mu_activation: None
+          sigma_activation: None
+          mu_init:
+            name: default
+          sigma_init:
+            name: const_initializer
+            val: 0
+          fixed_sigma: true
+      mlp:
+        units:
+        - 256
+        - 128
+        - 64
+        activation: elu
+        d2rl: false
+        initializer:
+          name: default
+        regularizer:
+          name: None
+    load_checkpoint: ${if:${...checkpoint},True,False}
+    load_path: ${...checkpoint}
+    config:
+      name: ${resolve_default:FactoryTaskPegHolePick,${....experiment}}
+      full_experiment_name: ${.name}
+      env_name: rlgpu
+      multi_gpu: false
+      ppo: true
+      mixed_precision: true
+      normalize_input: true
+      normalize_value: true
+      value_bootstrap: true
+      num_actors: ${....task.env.numEnvs}
+      reward_shaper:
+        scale_value: 1.0
+      normalize_advantage: true
+      gamma: 0.99
+      tau: 0.95
+      learning_rate: 0.0001
+      lr_schedule: fixed
+      schedule_type: standard
+      kl_threshold: 0.016
+      score_to_win: 20000
+      max_epochs: ${resolve_default:1024,${....max_iterations}}
+      save_best_after: 50
+      save_frequency: 100
+      print_stats: true
+      grad_norm: 1.0
+      entropy_coef: 0.0
+      truncate_grads: false
+      e_clip: 0.2
+      horizon_length: 120
+      minibatch_size: 512
+      mini_epochs: 8
+      critic_coef: 2
+      clip_value: true
+      seq_len: 4
+      bounds_loss_coef: 0.0001
+task_name: ${task.name}
+experiment: ''
+num_envs: 1
+seed: 42
+torch_deterministic: false
+max_iterations: ''
+physics_engine: physx
+pipeline: gpu
+sim_device: cuda:0
+rl_device: cuda:0
+graphics_device_id: 0
+num_threads: 4
+solver_type: 1
+num_subscenes: 4
+test: true
+checkpoint: /home/jy/junyi/IsaacGym_Preview_4_Package/isaacgym/IsaacGymEnvs/isaacgymenvs/runs/FactoryTaskPegHolePick/nn/FactoryTaskPegHolePick.pth
+multi_gpu: false
+wandb_activate: false
+wandb_group: ''
+wandb_name: ${train.params.config.name}
+wandb_entity: ''
+wandb_project: isaacgymenvs
+capture_video: false
+capture_video_freq: 1464
+capture_video_len: 100
+force_render: true
+headless: false

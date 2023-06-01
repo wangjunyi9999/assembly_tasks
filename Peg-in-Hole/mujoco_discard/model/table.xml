@@ -1,0 +1,11 @@
+<mujoco>
+     <body name="table" pos="0 0 0.8">
+            <!--a 1*1 table as working zone-->
+            <geom size="1 1 .05" pos ="0 0 0.8" type="box" material="bench_mat"/>
+            <geom size="0.1 0.1 .8" pos ="0.9 0.9 0" type="box" material="bench_mat"/>
+            <geom size="0.1 0.1 .8" pos ="-0.9 0.9 0" type="box" material="bench_mat"/>
+            <geom size="0.1 0.1 .8" pos ="0.9 -0.9 0" type="box" material="bench_mat"/>
+            <geom size="0.1 0.1 .8" pos ="-0.9 -0.9 0" type="box" material="bench_mat"/>
+            <inertial pos="0 0 0" mass="1000" diaginertia="0 0 0" />
+        </body>
+</mujoco>
